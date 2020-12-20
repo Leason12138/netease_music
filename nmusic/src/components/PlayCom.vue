@@ -13,12 +13,12 @@
       enter-active-class="animate__animated animate__slideInUp animate__slow	"
       leave-active-class="animate__animated animate__slideOutDown animate__faster "
     >
-      <div v-show="isbarshow || mp3datail.al.picUrl" class="palybar">
+      <div v-show="isbarshow && mp3datail.al.picUrl" class="palybar">
         <div class="musicshow" @click="isbarshow = !isbarshow">
           <div class="pic" ref="pic">
             <div
               class="picinside"
-              :style="{ background: 'url(' + mp3datail.al.picUrl + ') ' }"
+              :style="{ backgroundImage: 'url(' + mp3datail.al.picUrl + ') ' }"
             ></div>
           </div>
           <span class="musicname"
@@ -38,7 +38,7 @@
     </transition>
     <transition
       name="custom-classes-transition"
-      enter-active-class="animate__animated animate__slideInUp animate__faster	"
+      enter-active-class="animate__animated animate__slideInUp animate__faster 	"
       leave-active-class="animate__animated animate__slideOutDown animate__fast"
     >
       <div v-show="!isbarshow" class="palyfull">
@@ -48,20 +48,44 @@
         ></div>
         <PlayFullTop
           class="PlayFullTop"
+          :mp3datail="mp3datail"
           @resIsBarShow="isbarshow = !isbarshow"
         />
-        <PlayFullView
-          :runool="runool"
-          :mp3datail="mp3datail"
-          class="midle-box PlayFullView"
-          @ViewOrLyric="midleShow = !midleShow"
-          v-show="midleShow"
-        />
-        <PlayFullLyric
-          class="midle-box PlayFullLyric"
-          @ViewOrLyric="midleShow = !midleShow"
-          v-show="!midleShow"
-        />
+        <div class="midle-box">
+
+    <transition
+      name="custom-classes-transition"
+      enter-active-class="animate__animated animate__fadeIn 	"
+      leave-active-class="animate__animated animate__fadeOut   "
+    >
+
+          <PlayFullView
+            :runool="runool"
+            :mp3datail="mp3datail"
+            class="PlayFullView"
+            @ViewOrLyric="midleShow = !midleShow"
+            v-show="midleShow"
+          />
+  </transition>
+
+  <transition
+      name="custom-classes-transition"
+      enter-active-class="animate__animated animate__fadeIn  	 "
+      leave-active-class="animate__animated animate__fadeOut   "
+    >
+          <PlayFullLyric
+            :ctime="ctime"
+            :mp3datail="mp3datail"
+            class="PlayFullLyric"
+            @ViewOrLyric="midleShow = !midleShow"
+            v-show="!midleShow"
+          />
+  </transition>
+
+
+
+
+        </div>
         <PlayFullBottom
           class="PlayFullBottom"
           :Songing="Songing"
@@ -135,8 +159,11 @@ export default {
       pic.classList.remove("picstop");
     },
     nextSong() {
-      this.canClacIndex++;
-      console.log(this.canClacIndex);
+      if (this.canClacIndex == this.songlist.length - 1) {
+        this.canClacIndex = 0;
+      } else {
+        this.canClacIndex++;
+      }
     },
     prevSong() {
       this.canClacIndex = this.canClacIndex > 0 ? --this.canClacIndex : 0;
@@ -145,13 +172,13 @@ export default {
   },
   updated() {
     let that = this;
-    let pic = this.$refs.pic;
+    // let pic = this.$refs.pic;
     let audio = this.$refs.audio;
     audio.ontimeupdate = function () {
       that.Songing = this;
       that.ctime = this.currentTime;
       if (this.ended) {
-        that.stopSong(this, pic);
+        that.nextSong();
       }
     };
   },
@@ -173,6 +200,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .animate__delay-0p8s {
+            --animate-delay: 0.5s;
+        }
 .play {
   z-index: 10;
   // display: flex;
@@ -211,6 +241,8 @@ export default {
           width: 8.2vw;
           height: 8.2vw;
           border-radius: 50%;
+          background-size: cover;
+          background-repeat: no-repeat;
         }
       }
       .picstop {
@@ -287,7 +319,7 @@ export default {
   .palyfull {
     z-index: 10;
     width: 100vw;
-    height: 100vh;
+    height: 101vh;
     background-color: #757575;
     display: block;
     position: relative;
@@ -297,13 +329,23 @@ export default {
       height: 100vh;
       background-position: center center;
       background-size: cover;
-position: absolute;
-filter: blur(25px) brightness(55%);
+      position: absolute;
+      filter: blur(25px) brightness(55%);
     }
     // class="PlayFullTop"
     // class="midle-box PlayFullView"
     // class="midle-box PlayFullLyric
     // class="PlayFullBottom"
+
+    .midle-box {
+      width: 100vw;
+      position: relative;
+      .PlayFullView,
+    .PlayFullLyric {
+      position: absolute;
+      top: 0;bottom: 0;left: 0;right: 0;
+    }
+    }
     .midle-box,
     .PlayFullTop,
     .PlayFullBottom {

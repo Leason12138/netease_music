@@ -1,7 +1,9 @@
 <template>
   <div class="Hot">
-    <div class="hottopbar"></div>
-    <hr />
+    <div class="hottopbarback">
+      <div class="hottopbar"></div>
+      <span class="updatadays">更新日期 ：{{ updateTime + "日" }}</span>
+    </div>
     <MusicListItem
       @clickfn="clickfn"
       :curMusic_id="curMusic_id"
@@ -26,6 +28,7 @@ export default {
       beforeListStr: "",
       listArr: [],
       curMusic_id: "",
+      updateTime: "",
     };
   },
   methods: {
@@ -37,6 +40,11 @@ export default {
   },
   created() {
     this.axios.get("/top/list?idx=1").then((res) => {
+      console.log(res);
+      this.updateTime = new Date(res.data.playlist.updateTime)
+        .toLocaleString()
+        .slice(5, 10)
+        .replace("/", "月");
       this.beforeListStr = res.data.playlist.trackIds
         .map((item) => {
           return item.id;
@@ -65,9 +73,39 @@ export default {
 .Hot {
   width: 100vw;
   overflow: hidden;
-  .hottopbar{
-      height: 30vh;
-      background-color: #dd2e26;
+  .hottopbarback {
+    width: 100vw;
+    height: 18vh;
+    background-image: url("../assets/hotback.jpg");
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    &::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: rgba($color: #000000, $alpha: 0.2);
+    }
+    .hottopbar {
+      position: absolute;
+      left: 6px;
+      top: 10%;
+      background-image: url("../assets/hotsprite.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 165px;
+      height: 73px;
+      background-position: -9px -23px;
+    }
+    .updatadays {
+      position: absolute;
+      left: 20px;
+      font-size: 12px;
+      bottom: 16%;
+      color: rgb(255, 255, 255);
+    }
   }
 }
 </style>

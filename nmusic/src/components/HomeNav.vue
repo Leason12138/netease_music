@@ -63,7 +63,7 @@ export default {
     background-color: #fff;
     display: flex;
     justify-content: space-around;
-    border: 1px #eee solid;
+    border-bottom:1px solid #eee ;
   }
 
   #nav a {

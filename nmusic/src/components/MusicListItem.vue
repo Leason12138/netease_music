@@ -1,5 +1,5 @@
 <template>
-  <div class="Hotitems" @click="$emit('clickfn', item,idx)">
+  <div class="Hotitems" @click="$emit('clickfn', item, idx)">
     <div class="left">
       <span>
         <span class="text">
@@ -16,7 +16,7 @@
       <p class="zhuangji">-{{ item.al.name }}</p>
     </div>
     <div class="right">
-      <span v-if="curMusic_id==item.id" class="runing">■</span>
+      <span v-if="curMusic_id == item.id" class="runing">■</span>
       <span v-else class="ctrl"> ▶ </span>
     </div>
   </div>
@@ -24,11 +24,10 @@
 
 <script>
 export default {
-  props: ["item", "curMusic_id",'idx'],
+  props: ["item", "curMusic_id", "idx"],
   methods: {},
   data: function () {
-    return {
-    };
+    return {};
   },
   created() {},
 };
@@ -106,20 +105,22 @@ export default {
   //     border-radius: 50%;
   //   }
   // }
-   padding-top: 5px;
+  padding-top: 5px;
   margin-left: 10px;
   height: 55px;
   border-bottom: 1px #eee solid;
   .left {
     float: left;
+    overflow: hidden;
     width: 80vw;
+    height: 12vw;
     .text {
-      font-size: 17px;
       white-space: nowrap;
+      font-size: 17px;
     }
     .chinese {
       font-size: 17px;
-
+      white-space: nowrap;
       color: #999;
       &::before {
         content: "(";
@@ -142,8 +143,10 @@ export default {
     }
     .zhuangji {
       display: inline;
+      line-height: 25px;
       font-size: 10px;
       color: #888;
+    overflow: hidden;
     }
   }
   .right {
@@ -154,8 +157,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    .runing{
-       width: 20px;
+    .runing {
+      width: 20px;
       height: 20px;
       line-height: 17px;
       text-align: center;
