@@ -73,6 +73,7 @@ export default {
 .Hot {
   width: 100vw;
   overflow: hidden;
+  margin-bottom: 60px;
   .hottopbarback {
     width: 100vw;
     height: 18vh;

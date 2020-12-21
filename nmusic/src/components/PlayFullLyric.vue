@@ -1,7 +1,8 @@
 <template>
   <div @click="$emit('ViewOrLyric')">
-    <div class="lrc" :style="{ marginTop: `${-i * 37}px` }">
+    <div v-if="lrctext" class="lrc" :style="{ marginTop: `${-i * 37}px` }">
       <div
+      
         class="lrctext"
         v-for="(item, index) in lrctext"
         :idx="index"
@@ -11,6 +12,7 @@
         {{ item }}
       </div>
     </div>
+      <div class="lrc" v-else>cyyatbt</div>
   </div>
 </template>
 
@@ -60,9 +62,11 @@ export default {
       this.getLrc();
     },
     ctime: function (n) {
-      this.i = this.lrc.findIndex((element) => {
-        return element.time > n;
-      });
+      if (this.lrc) {
+        this.i = this.lrc.findIndex((element) => {
+          return element.time > n;
+        });
+      }
     },
   },
 };
@@ -79,8 +83,9 @@ export default {
     transition: all 0.4s linear;
     padding-top: 50%;
     color: #aaa;
-    text-align: center;position: relative;
-  
+    text-align: center;
+    position: relative;
+
     .lrctext {
       width: 100vw;
       white-space: pre-wrap;

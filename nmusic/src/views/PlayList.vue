@@ -1,6 +1,8 @@
 <template>
   <div class="playlist">
-    <h1 >asdfasdf</h1>
+    <div class="toppic">
+
+    </div>
     <MusicListItem
       @clickfn="clickfn"
       :curMusic_id="curMusic_id"
@@ -68,6 +70,7 @@ export default {
   height: 100%;
   z-index: 10;
   background-color: #fff;
+  margin-bottom: 60px;
 }
 .PlayCom {
   width: 100%;

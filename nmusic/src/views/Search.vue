@@ -37,10 +37,14 @@
         >
         <ul>
           <li
+            class="sugtext"
             @click="sugClickFn(item.keyword)"
             v-for="item in searchSug"
             :key="item.id"
           >
+          <div class="searchicon">
+            
+          </div>
             {{ item.keyword }}
           </li>
         </ul>
@@ -143,6 +147,7 @@ export default {
 
 <style lang="scss" scoped>
 .search {
+  margin-bottom: 60px;
   .inputbox {
     margin: 12.5px 0;
 
@@ -182,8 +187,8 @@ export default {
         display: block;
         position: absolute;
         transform: rotateZ(-45deg);
-        right: 30%;
-        bottom: 15%;
+         right: 23%;
+    bottom: 12%;
       }
     }
     .searchdel {
@@ -216,9 +221,10 @@ export default {
       font-size: 14px;
     }
     ul {
-        list-style: none;
-        padding: 0;margin: 0;
-      
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
       li {
         height: 20px;
         font-size: 14px;
@@ -235,6 +241,48 @@ export default {
     margin-left: 3vw;
     display: block;
     color: #3e7cc3;
+    border-bottom: 1px solid #eee;
+padding:8px 0;
+  }
+  .sugtext {
+    position: relative;
+.searchicon {
+      width: 20px;
+      height: 20px;
+      // background-color: red;
+      margin: 0 3%;
+      border-radius: 50%;position: absolute;
+      left: -35px;
+      &::before {
+        content: "";
+        width: 50%;
+        height: 50%;
+        display: block;
+        border-radius: 50%;
+        position: absolute;
+        border: 2px solid #c9c9ca;
+      }
+      &::after {
+        content: "";
+        width: 3px;
+        height: 38%;
+        background-color: #c9c9ca;
+        display: block;
+        position: absolute;
+        transform: rotateZ(-45deg);
+           right: 23%;
+    bottom: 12%;
+      }
+    }
+
+    padding: 0;
+    margin: 0;
+    height: 16px;
+    line-height: 16px;
+    font-size: 16px;
+padding:16px 0;
+    border-bottom: 1px solid #eee;
+    list-style: none;
   }
 }
 </style>

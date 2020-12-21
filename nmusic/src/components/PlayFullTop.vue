@@ -17,7 +17,7 @@ export default {
   props: ["mp3datail"],
   computed: {
     bool() {
-    return  (this.mp3datail.name.length > 13);
+    return  (this.mp3datail.name.length > 21);
     },
   },
 };

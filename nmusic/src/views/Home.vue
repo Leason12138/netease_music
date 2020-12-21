@@ -73,6 +73,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .home {
+  margin-bottom: 60px;
   .sidetext {
     text-align: left;
     font-size: 16px;
