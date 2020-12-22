@@ -13,12 +13,7 @@
       </div>
     </div>
     <div>
-      <!-- <span class="musicname"
-        >{{ mp3datail.name }} --
-        <span class="auther" v-for="it in mp3datail.ar" :key="it.id">
-          {{ it.name }}
-        </span>
-      </span> -->
+ 
     </div>
   </div>
 </template>
@@ -33,6 +28,7 @@ export default {
     runool: function (n) {
       // console.log(n);
       if (n) {
+        console.log( this.$refs);
         this.$refs.pic.classList.add("picstop");
         this.$refs.singingNeedlespic.classList.add("singingNeedlespicout");
         this.$refs.singingNeedlespic.classList.remove("singingNeedlespicin");

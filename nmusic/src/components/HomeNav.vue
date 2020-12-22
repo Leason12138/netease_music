@@ -5,15 +5,16 @@
       <router-link to="/Hot">热歌榜</router-link>
       <router-link to="/Search">搜索</router-link>
     </div>
-    <div style="height: 50px"></div>
+    
 
 <keep-alive>
 
-    <router-view @changdiurl="changdiurl" />
+    <router-view class="rouview" @changdiurl="changdiurl" />
 
 </keep-alive>
 
-    <PlayCom class="PlayCom" 
+    <PlayCom 
+    class="PlayCom" 
     :songlist='songlist'
     :index='index'
     
@@ -55,6 +56,9 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  .rouview{
+ padding-top: 50px;
+  }
   #nav {
     z-index: 9;
     position: fixed;

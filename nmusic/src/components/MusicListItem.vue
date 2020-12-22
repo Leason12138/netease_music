@@ -16,8 +16,9 @@
       <p class="zhuangji">-{{ item.al.name }}</p>
     </div>
     <div class="right">
-      <span v-if="curMusic_id == item.id" class="runing">■</span>
-      <span v-else class="ctrl"> ▶ </span>
+      <span v-if="curMusic_id == item.id" class="runing"><span  class="rin">
+        </span></span>
+      <span v-else class="ctrl"><span class="cin"></span></span>
     </div>
   </div>
 </template>
@@ -160,12 +161,27 @@ export default {
     .runing {
       width: 20px;
       height: 20px;
-      line-height: 17px;
+      line-height: 22px;
       text-align: center;
-      font-size: 20px;
+      font-size: 12px;
       color: #dd001b;
       border: 2px solid #dd001b;
       border-radius: 50%;
+      position: relative;
+      .rin{
+        display: block;
+        width: 12px;
+        height: 12px;
+        background-image:url('../assets/rin.png') ;
+        background-size: contain;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        // transform: translate(-50% -50%);
+        top: 20%;
+
+      }
     }
     .ctrl {
       width: 20px;
@@ -176,6 +192,21 @@ export default {
       color: #aaa;
       border: 2px solid #aaa;
       border-radius: 50%;
+      position: relative;
+      .cin{
+        display: block;
+        width: 12px;
+        height: 12px;
+        background-image:url('../assets/cin.png') ;
+        background-size: contain;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        // transform: translate(-50% -50%);
+        top: 20%;
+
+      }
     }
   }
 }

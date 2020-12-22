@@ -42,15 +42,13 @@
             v-for="item in searchSug"
             :key="item.id"
           >
-          <div class="searchicon">
-            
-          </div>
+            <div class="searchicon"></div>
             {{ item.keyword }}
           </li>
         </ul>
         <!-- inputsearch -->
       </div>
-      <div v-if="listArr">
+      <div v-if="listArr[0]">
         <MusicListItem
           @clickfn="clickfn"
           :curMusic_id="curMusic_id"
@@ -61,6 +59,14 @@
         >
         </MusicListItem>
       </div>
+      <div v-if='!listArr[0]&&keywords&&!searchSug[0]' class="loading">
+      <div class="icon">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
       <!-- main -->
     </div>
     <!-- search -->
@@ -88,6 +94,7 @@ export default {
   },
   methods: {
     sugClickFn(str) {
+      this.searchSug=[]
       this.getSearchList(str);
     },
     clickfn(target, index) {
@@ -148,18 +155,62 @@ export default {
 <style lang="scss" scoped>
 .search {
   margin-bottom: 60px;
+    .loading {
+    margin-top: -100px;
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .icon {
+      width: 16vw;
+      height: 12vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      div {
+        height: 0;
+        width: 16%;
+        background-color: #d32929;
+        animation: loadingmove 1s linear infinite;
+        &:nth-child(1) {
+          animation-delay: 0.7s;
+        }
+        &:nth-child(2) {
+          animation-delay: 0.1s;
+        }
+        &:nth-child(3) {
+          animation-delay: 0.5s;
+        }
+        &:nth-child(4) {
+          animation-delay: 0.3s;
+        }
+      }
+    }
+  }
+  @keyframes loadingmove {
+    0% {
+      height: 0;
+    }
+    50% {
+      height: 100%;
+    }
+    100% {
+      height: 0;
+    }
+  }
   .inputbox {
     margin: 12.5px 0;
 
     margin-left: 3vw;
     width: 94vw;
-    height: 4vh;
+    height: 36px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     background-color: #ebebeb;
-    border-radius: 2vh;
+    border-radius: 18vh;
     span {
       display: block;
       position: relative;
@@ -187,8 +238,8 @@ export default {
         display: block;
         position: absolute;
         transform: rotateZ(-45deg);
-         right: 23%;
-    bottom: 12%;
+        right: 23%;
+        bottom: 12%;
       }
     }
     .searchdel {
@@ -242,16 +293,17 @@ export default {
     display: block;
     color: #3e7cc3;
     border-bottom: 1px solid #eee;
-padding:8px 0;
+    padding: 8px 0;
   }
   .sugtext {
     position: relative;
-.searchicon {
+    .searchicon {
       width: 20px;
       height: 20px;
       // background-color: red;
       margin: 0 3%;
-      border-radius: 50%;position: absolute;
+      border-radius: 50%;
+      position: absolute;
       left: -35px;
       &::before {
         content: "";
@@ -270,8 +322,8 @@ padding:8px 0;
         display: block;
         position: absolute;
         transform: rotateZ(-45deg);
-           right: 23%;
-    bottom: 12%;
+        right: 23%;
+        bottom: 12%;
       }
     }
 
@@ -280,7 +332,7 @@ padding:8px 0;
     height: 16px;
     line-height: 16px;
     font-size: 16px;
-padding:16px 0;
+    padding: 16px 0;
     border-bottom: 1px solid #eee;
     list-style: none;
   }

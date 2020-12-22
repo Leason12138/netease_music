@@ -31,8 +31,12 @@
         <div class="mplayer-control">
           <!-- <canvas id="canvas"></canvas> -->
 
-          <span @click="changeStop" v-if="runool" class="ctrl"> ▶ </span>
-          <span @click="changeStop" v-else class="runing">■</span>
+          <span @click="changeStop" v-if="runool" class="ctrl"
+            ><span class="cin"></span
+          ></span>
+          <span @click="changeStop" v-else class="runing"
+            ><span class="rin"></span
+          ></span>
         </div>
       </div>
     </transition>
@@ -41,7 +45,7 @@
       enter-active-class="animate__animated animate__slideInUp animate__faster 	"
       leave-active-class="animate__animated animate__slideOutDown animate__fast"
     >
-      <div v-show="!isbarshow" class="palyfull">
+      <div v-show="!isbarshow && mp3datail.al.picUrl" class="palyfull">
         <div
           class="palyfull-bgi"
           :style="{ backgroundImage: 'url(' + mp3datail.al.picUrl + ') ' }"
@@ -52,39 +56,33 @@
           @resIsBarShow="isbarshow = !isbarshow"
         />
         <div class="midle-box">
+          <transition
+            name="custom-classes-transition"
+            enter-active-class="animate__animated animate__fadeIn 	"
+            leave-active-class="animate__animated animate__fadeOut   "
+          >
+            <PlayFullView
+              :runool="runool"
+              :mp3datail="mp3datail"
+              class="PlayFullView"
+              @ViewOrLyric="midleShow = !midleShow"
+              v-show="midleShow"
+            />
+          </transition>
 
-    <transition
-      name="custom-classes-transition"
-      enter-active-class="animate__animated animate__fadeIn 	"
-      leave-active-class="animate__animated animate__fadeOut   "
-    >
-
-          <PlayFullView
-            :runool="runool"
-            :mp3datail="mp3datail"
-            class="PlayFullView"
-            @ViewOrLyric="midleShow = !midleShow"
-            v-show="midleShow"
-          />
-  </transition>
-
-  <transition
-      name="custom-classes-transition"
-      enter-active-class="animate__animated animate__fadeIn  	 "
-      leave-active-class="animate__animated animate__fadeOut   "
-    >
-          <PlayFullLyric
-            :ctime="ctime"
-            :mp3datail="mp3datail"
-            class="PlayFullLyric"
-            @ViewOrLyric="midleShow = !midleShow"
-            v-show="!midleShow"
-          />
-  </transition>
-
-
-
-
+          <transition
+            name="custom-classes-transition"
+            enter-active-class="animate__animated animate__fadeIn  	 "
+            leave-active-class="animate__animated animate__fadeOut   "
+          >
+            <PlayFullLyric
+              :ctime="ctime"
+              :mp3datail="mp3datail"
+              class="PlayFullLyric"
+              @ViewOrLyric="midleShow = !midleShow"
+              v-show="!midleShow"
+            />
+          </transition>
         </div>
         <PlayFullBottom
           class="PlayFullBottom"
@@ -128,6 +126,7 @@ export default {
       midleShow: true,
     };
   },
+
   methods: {
     setctimefn(time) {
       let audio = this.$refs.audio;
@@ -137,11 +136,11 @@ export default {
     },
     changeTimeFn(tt) {
       tt;
-      // console.log(tt);
     },
     changeStop() {
       let audio = this.$refs.audio;
       let pic = this.$refs.pic;
+
       if (this.runool) {
         this.runSong(audio, pic);
       } else {
@@ -167,7 +166,6 @@ export default {
     },
     prevSong() {
       this.canClacIndex = this.canClacIndex > 0 ? --this.canClacIndex : 0;
-      console.log(this.canClacIndex);
     },
   },
   updated() {
@@ -200,9 +198,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .animate__delay-0p8s {
-            --animate-delay: 0.5s;
-        }
+.animate__delay-0p8s {
+  --animate-delay: 0.5s;
+}
 .play {
   z-index: 10;
   // display: flex;
@@ -290,17 +288,33 @@ export default {
       right: -3vw;
       top: 42%;
       transform: translateY(-50%);
-
+display: flex;
+justify-content:space-between;
+align-items: center;
       .runing {
         display: inline-block;
         width: 20px;
         height: 20px;
-        line-height: 17px;
+        line-height: 22px;
         text-align: center;
-        font-size: 20px;
+        font-size: 12px;
         color: #fafafa;
         border: 2px solid #fafafa;
+        position: relative;
         border-radius: 50%;
+        .rin {
+          display: block;
+          width: 12px;
+          height: 12px;
+          background-image: url("../assets/stop.png");
+          background-size: contain;
+          position: absolute;
+          left: 0;
+          right: 0;
+          margin: 0 auto;
+          // transform: translate(-50% -50%);
+          top: 20%;
+        }
       }
       .ctrl {
         display: inline-block;
@@ -313,6 +327,21 @@ export default {
         color: #fafafa;
         border: 2px solid #fafafa;
         border-radius: 50%;
+
+        position: relative;
+        .cin {
+          display: block;
+          width: 12px;
+          height: 12px;
+          background-image: url("../assets/run.png");
+          background-size: contain;
+          position: absolute;
+          left: 0;
+          right: 0;
+          margin: 0 auto;
+          // transform: translate(-50% -50%);
+          top: 20%;
+        }
       }
     }
   }
@@ -341,10 +370,13 @@ export default {
       width: 100vw;
       position: relative;
       .PlayFullView,
-    .PlayFullLyric {
-      position: absolute;
-      top: 0;bottom: 0;left: 0;right: 0;
-    }
+      .PlayFullLyric {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
     }
     .midle-box,
     .PlayFullTop,

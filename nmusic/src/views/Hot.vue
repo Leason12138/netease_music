@@ -1,9 +1,12 @@
 <template>
-  <div class="Hot">
+  <div  class="Hot">
     <div class="hottopbarback">
       <div class="hottopbar"></div>
-      <span class="updatadays">更新日期 ：{{ updateTime + "日" }}</span>
+      <span class="updatadays">更新日期 ：{{ updateTime }}日</span>
     </div>
+
+
+    <div v-if="listArr[0]">
     <MusicListItem
       @clickfn="clickfn"
       :curMusic_id="curMusic_id"
@@ -14,6 +17,15 @@
       :key="item.id"
     >
     </MusicListItem>
+</div>
+ <div v-else class="loading">
+      <div class="icon">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -42,9 +54,9 @@ export default {
     this.axios.get("/top/list?idx=1").then((res) => {
       console.log(res);
       this.updateTime = new Date(res.data.playlist.updateTime)
-        .toLocaleString()
+        .toISOString()
         .slice(5, 10)
-        .replace("/", "月");
+      .replace("-", "月");
       this.beforeListStr = res.data.playlist.trackIds
         .map((item) => {
           return item.id;
@@ -71,6 +83,50 @@ export default {
 
 <style lang="scss" scoped>
 .Hot {
+    .loading {
+    margin-top: -100px;
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .icon {
+      width: 16vw;
+      height: 12vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      div {
+        height: 0;
+        width: 16%;
+        background-color: #d32929;
+        animation: loadingmove 1s linear infinite;
+        &:nth-child(1) {
+          animation-delay: 0.7s;
+        }
+        &:nth-child(2) {
+          animation-delay: 0.1s;
+        }
+        &:nth-child(3) {
+          animation-delay: 0.5s;
+        }
+        &:nth-child(4) {
+          animation-delay: 0.3s;
+        }
+      }
+    }
+  }
+  @keyframes loadingmove {
+    0% {
+      height: 0;
+    }
+    50% {
+      height: 100%;
+    }
+    100% {
+      height: 0;
+    }
+  }
   width: 100vw;
   overflow: hidden;
   margin-bottom: 60px;
@@ -96,13 +152,13 @@ export default {
       background-image: url("../assets/hotsprite.png");
       background-repeat: no-repeat;
       background-size: cover;
-      width: 165px;
-      height: 73px;
+      width: 35vw;
+      height: 21vw;
       background-position: -9px -23px;
     }
     .updatadays {
       position: absolute;
-      left: 20px;
+      left: 4vw;
       font-size: 12px;
       bottom: 16%;
       color: rgb(255, 255, 255);
