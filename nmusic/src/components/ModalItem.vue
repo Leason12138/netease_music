@@ -16,8 +16,9 @@
       <p class="zhuangji">-{{ item.al.name }}</p>
     </div>
     <div class="right">
-      <span v-if="curMusic_id == item.id" class="runing"><span  class="rin">
-        </span></span>
+      <span v-if="curMusic_id == item.id" class="runing"
+        ><span class="rin"> </span
+      ></span>
       <span v-else class="ctrl"><span class="cin"></span></span>
     </div>
   </div>
@@ -30,7 +31,10 @@ export default {
   data: function () {
     return {};
   },
-  created() {},
+  created() {
+  },
+  updated() {
+  },
 };
 </script>
 
@@ -106,7 +110,6 @@ export default {
   //     border-radius: 50%;
   //   }
   // }
-  width: 100%;
   padding-top: 5px;
   margin-left: 10px;
   height: 55px;
@@ -114,9 +117,10 @@ export default {
   .left {
     float: left;
     overflow: hidden;
-    width: 80%;
-      text-overflow: ellipsis;
+    width: 60vw;
+    text-align: left;
     height: 12.5vw;
+    text-overflow: ellipsis;
     .text {
       white-space: nowrap;
       font-size: 17px;
@@ -149,12 +153,12 @@ export default {
       line-height: 25px;
       font-size: 10px;
       color: #888;
-    overflow: hidden;
+      overflow: hidden;
     }
   }
   .right {
     float: right;
-    width: 12%;
+    width: 12.5vw;
     margin: 1px 5px 0px 0px;
     height: 41px;
     display: flex;
@@ -170,11 +174,11 @@ export default {
       border: 2px solid #dd001b;
       border-radius: 50%;
       position: relative;
-      .rin{
+      .rin {
         display: block;
         width: 12px;
         height: 12px;
-        background-image:url('../assets/rin.png') ;
+        background-image: url("../assets/rin.png");
         background-size: contain;
         position: absolute;
         left: 0;
@@ -182,9 +186,9 @@ export default {
         margin: 0 auto;
         // transform: translate(-50% -50%);
         top: 20%;
-
       }
     }
+
     .ctrl {
       width: 20px;
       height: 20px;
@@ -195,11 +199,11 @@ export default {
       border: 2px solid #aaa;
       border-radius: 50%;
       position: relative;
-      .cin{
+      .cin {
         display: block;
         width: 12px;
         height: 12px;
-        background-image:url('../assets/cin.png') ;
+        background-image: url("../assets/cin.png");
         background-size: contain;
         position: absolute;
         left: 0;
@@ -207,7 +211,6 @@ export default {
         margin: 0 auto;
         // transform: translate(-50% -50%);
         top: 20%;
-
       }
     }
   }

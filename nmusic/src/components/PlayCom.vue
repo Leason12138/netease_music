@@ -37,9 +37,44 @@
           <span @click="changeStop" v-else class="runing"
             ><span class="rin"></span
           ></span>
+
+          <div class="songList" @click="modalboxshow = !modalboxshow">
+            <transition
+              name="custom-classes-transition"
+              enter-active-class="animate__animated animate__slideInUp animate__faster 	"
+              leave-active-class="animate__animated animate__slideOutDown animate__faster"
+            >
+              <div class="list" v-if="modalboxshow">
+                <div class="modalbox" ref="modalbox" v-if="modalboxshow">
+                  <div
+                    class="modalin"
+                    ref="modalin"
+                    @click.stop
+                    @touchstart="touchstartFn"
+                    @touchmove.prevent="touchmoveFn"
+                    @touchend="touchendFn"
+                  >
+                    <ModalItem
+                      @clickfn="clickfn"
+                      :curMusic_id="curMusic_id"
+                      class="newsong"
+                      :item="item"
+                      v-for="(item, index) in songlist"
+                      :idx="index"
+                      :key="item.id"
+                    >
+                    </ModalItem>
+                  </div>
+                </div>
+              </div>
+            </transition>
+
+            <!-- <ModalItem></ModalItem> -->
+          </div>
         </div>
       </div>
     </transition>
+
     <transition
       name="custom-classes-transition"
       enter-active-class="animate__animated animate__slideInUp animate__faster 	"
@@ -85,10 +120,13 @@
           </transition>
         </div>
         <PlayFullBottom
+       @clickfn='clickfn'
           class="PlayFullBottom"
           :Songing="Songing"
           :ctime="ctime"
           :runool="runool"
+          :songlist="songlist"
+          :curMusic_id="curMusic_id"
           @changeTimeFn="changeTimeFn"
           @setctimefn="setctimefn"
           @nextSong="nextSong"
@@ -107,27 +145,75 @@ import PlayFullView from "@/components/PlayFullView";
 import PlayFullLyric from "@/components/PlayFullLyric";
 import PlayFullTop from "@/components/PlayFullTop";
 import PlayFullBottom from "@/components/PlayFullBottom";
+import ModalItem from "@/components/ModalItem";
 export default {
   components: {
     PlayFullView,
     PlayFullLyric,
     PlayFullTop,
     PlayFullBottom,
+    ModalItem,
   },
   props: ["songlist", "index"],
   data: function () {
     return {
+      modalboxshow: false,
       runool: false,
       isbarshow: true,
       Songing: "",
       ctime: "",
+      curMusic_id: "",
       mp3datail: {},
       canClacIndex: "",
       midleShow: true,
+      beginMove: "",
+      ny: 0,
+      cy: 0,
+      listArr:[]
     };
   },
 
   methods: {
+    clickfn(target, index) {
+      console.log(111, target, index, this.listArr);
+      // console.log(target);
+      this.curMusic_id = target.id;
+      this.canClacIndex=index
+    },
+    touchstartFn(e) {
+      // console.log(e.touches[0].clientY);
+      this.beginMove = e.touches[0].clientY;
+      this.$refs.modalin.classList.remove("mdlmove");
+    },
+    touchmoveFn(e) {
+      // console.log(e.touches[0].clientY);
+      this.cy = e.touches[0].clientY - this.beginMove + this.ny;
+      this.$refs.modalin.style.marginTop = this.cy + "px";
+    },
+    touchendFn() {
+      // console.log(
+      //   this.cy,
+      //   this.beginMove,
+      //   this.ny,
+      //   "gd",
+      //   this.$refs.modalin.offsetHeight
+      // );
+      if (this.cy >= 0) {
+        this.$refs.modalin.classList.add("mdlmove");
+        this.cy = 0;
+        this.$refs.modalin.style.marginTop = this.cy + "px";
+      } else if (
+        this.cy <=
+        -this.$refs.modalin.offsetHeight + this.$refs.modalbox.offsetHeight
+      ) {
+        this.$refs.modalin.classList.add("mdlmove");
+        this.cy =
+          -this.$refs.modalin.offsetHeight + this.$refs.modalbox.offsetHeight;
+        this.$refs.modalin.style.marginTop = this.cy + "px";
+        // this.$refs.modalin.classList.remove("mdlmove");
+      }
+      this.ny = this.cy;
+    },
     setctimefn(time) {
       let audio = this.$refs.audio;
       let pic = this.$refs.pic;
@@ -169,6 +255,7 @@ export default {
     },
   },
   updated() {
+    // mp3datail.id
     let that = this;
     // let pic = this.$refs.pic;
     let audio = this.$refs.audio;
@@ -187,11 +274,13 @@ export default {
     canClacIndex: function (n) {
       this.mp3datail = this.songlist[n];
     },
-    mp3datail: function () {
+    mp3datail: function (n) {
       let audio = this.$refs.audio;
       let pic = this.$refs.pic;
       this.runSong(audio, pic);
       this.runool = false;
+      this.curMusic_id = n.id;
+      console.log(this.curMusic_id);
     },
   },
 };
@@ -214,16 +303,16 @@ export default {
     height: 8vh;
     position: absolute;
     bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     .musicshow {
-      position: absolute;
-      left: 0;
-      top: 42%;
       width: 68vw;
       // background-color: pink;
-      transform: translateY(-50%);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 10px;
       .pic {
         margin: 0 0 7px 7px;
         width: 13.5vw;
@@ -282,15 +371,12 @@ export default {
     //   background-color: red;
     // }
     .mplayer-control {
-      width: 28vw;
+      margin: 0 2vw 2vw 0;
+      width: 18vw;
       line-height: 40px;
-      position: absolute;
-      right: -3vw;
-      top: 42%;
-      transform: translateY(-50%);
-display: flex;
-justify-content:space-between;
-align-items: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       .runing {
         display: inline-block;
         width: 20px;
@@ -343,52 +429,93 @@ align-items: center;
           top: 20%;
         }
       }
-    }
-  }
-  .palyfull {
-    z-index: 10;
-    width: 100vw;
-    height: 101vh;
-    background-color: #757575;
-    display: block;
-    position: relative;
-    .palyfull-bgi {
-      z-index: -1;
-      width: 100vw;
-      height: 100vh;
-      background-position: center center;
-      background-size: cover;
-      position: absolute;
-      filter: blur(25px) brightness(55%);
-    }
-    // class="PlayFullTop"
-    // class="midle-box PlayFullView"
-    // class="midle-box PlayFullLyric
-    // class="PlayFullBottom"
-
-    .midle-box {
-      width: 100vw;
-      position: relative;
-      .PlayFullView,
-      .PlayFullLyric {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
+      .songList {
+        width: 7.5vw;
+        height: 7.5vw;
+        border-radius: 50%;
+        position: relative;
+        &::before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translateY(-50%) translateX(-50%);
+          display: block;
+          width: 6vw;
+          height: 6vw;
+          background: url("../assets/lists.png");
+          background-size: cover;
+        }
+        .list {
+          width: 100vw;
+          height: 100vh;
+          position: absolute;
+          top: -94vh;
+          left: -90.5vw;
+          background-color: rgba($color: #000000, $alpha: 0.6);
+          .modalbox {
+            position: absolute;
+            top: 20%;
+            left: 15%;
+            border-radius: 10px;
+            box-shadow: 0 0 22px 0 #ffffff;
+            overflow: hidden;
+            width: 80vw;
+            height: 65vh;
+            background-color: rgba($color: #ffffff, $alpha: 0.9);
+          }
+          .mdlmove {
+            transition: all 0.3s cubic-bezier(0.5, -0.8, 0, 1.5);
+          }
+        }
       }
-    }
-    .midle-box,
-    .PlayFullTop,
-    .PlayFullBottom {
-      z-index: 2;
-    }
-    .PlayFullBottom {
-      position: absolute;
-      bottom: 0;
     }
   }
 }
+.palyfull {
+  z-index: 10;
+  width: 100vw;
+  height: 101vh;
+  background-color: #757575;
+  display: block;
+  position: relative;
+  .palyfull-bgi {
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    background-position: center center;
+    background-size: cover;
+    position: absolute;
+    filter: blur(25px) brightness(55%);
+  }
+  // class="PlayFullTop"
+  // class="midle-box PlayFullView"
+  // class="midle-box PlayFullLyric
+  // class="PlayFullBottom"
+
+  .midle-box {
+    width: 100vw;
+    position: relative;
+    .PlayFullView,
+    .PlayFullLyric {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+  .midle-box,
+  .PlayFullTop,
+  .PlayFullBottom {
+    z-index: 2;
+  }
+  .PlayFullBottom {
+    position: absolute;
+    bottom: 0;
+  }
+}
+
 @keyframes picTurnRound {
   from {
     transform: rotate(0);

@@ -23,25 +23,58 @@
         <span v-else class="runing"></span>
       </div>
       <div class="btn nextSong" @click="$emit('nextSong')"></div>
-      <div class="btn songList"></div>
+      <div class="btn songList" @click="modalboxshow = !modalboxshow">
+        <transition
+          name="custom-classes-transition"
+          enter-active-class="animate__animated animate__slideInUp animate__faster 	"
+          leave-active-class="animate__animated animate__slideOutDown animate__faster"
+        >
+          <div class="list" v-if="modalboxshow">
+            <div class="modalbox" ref="modalbox" v-if="modalboxshow">
+              <div
+                class="modalin"
+                ref="modalin"
+                @click.stop
+                @touchstart="touchstartFn"
+                @touchmove.prevent="touchmoveFn"
+                @touchend="touchendFn"
+              >
+                <ModalItem
+                  @clickfn="clickfn"
+                  :curMusic_id="curMusic_id"
+                  class="newsong"
+                  :item="item"
+                  v-for="(item, index) in songlist"
+                  :idx="index"
+                  :key="item.id"
+                >
+                </ModalItem>
+              </div>
+            </div>
+          </div>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import ModalItem from "../components/ModalItem";
 export default {
-  props: ["Songing", "ctime", "runool"],
+  components: { ModalItem },
+  props: ["Songing", "ctime", "runool", "songlist", "curMusic_id"],
   data: function () {
     return {
       changeTime: "",
+      beginMove: "",
+      ny: 0,
+      cy: 0,
+      modalboxshow: false,
       // @input="$emit('changeTimeFn',)
     };
   },
   watch: {
-Songing:function(n){
-  console.log(n);
-}
-
+   
   },
   computed: {
     nowtime() {
@@ -56,9 +89,9 @@ Songing:function(n){
       }`;
     },
     endtime() {
-    //  this.mp3datail
-     this.ctime
-      return  `${
+      //  this.mp3datail
+      this.ctime;
+      return `${
         this.Songing.duration / 60 < 10
           ? `0${Math.floor(this.Songing.duration / 60)}`
           : Math.floor(this.Songing.duration / 60)
@@ -66,10 +99,47 @@ Songing:function(n){
         this.Songing.duration % 60 < 10
           ? `0${Math.floor(this.Songing.duration % 60)}`
           : Math.floor(this.Songing.duration % 60)
-      }`
+      }`;
     },
   },
+  created() {},
   methods: {
+    clickfn(target, index) {
+      this.$emit("clickfn", target, index);
+    },
+    touchstartFn(e) {
+      this.beginMove = e.touches[0].clientY;
+      this.$refs.modalin.classList.remove("mdlmove");
+    },
+    touchmoveFn(e) {
+      // console.log(e.touches[0].clientY);
+      this.cy = e.touches[0].clientY - this.beginMove + this.ny;
+      this.$refs.modalin.style.marginTop = this.cy + "px";
+    },
+    touchendFn() {
+      console.log(
+        this.cy,
+        this.beginMove,
+        this.ny,
+        "gd",
+        this.$refs.modalin.offsetHeight
+      );
+      if (this.cy >= 0) {
+        this.$refs.modalin.classList.add("mdlmove");
+        this.cy = 0;
+        this.$refs.modalin.style.marginTop = this.cy + "px";
+      } else if (
+        this.cy <=
+        -this.$refs.modalin.offsetHeight + this.$refs.modalbox.offsetHeight
+      ) {
+        this.$refs.modalin.classList.add("mdlmove");
+        this.cy =
+          -this.$refs.modalin.offsetHeight + this.$refs.modalbox.offsetHeight;
+        this.$refs.modalin.style.marginTop = this.cy + "px";
+        // this.$refs.modalin.classList.remove("mdlmove");
+      }
+      this.ny = this.cy;
+    },
     sentctimefn(e) {
       //   console.log(e.target.value);
       this.$emit("setctimefn", e.target.value);
@@ -86,6 +156,7 @@ Songing:function(n){
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  position: relative;
   .time-range {
     width: 90vw;
     display: flex;
@@ -235,6 +306,28 @@ Songing:function(n){
           background-size: cover;
         }
       }
+    }
+  }
+  .list {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: -90.6vh;
+    left: -85vw;
+    background-color: rgba($color: #000000, $alpha: 0.6);
+    .modalbox {
+      position: absolute;
+      top: 20%;
+      left: 15%;
+      border-radius: 10px;
+      box-shadow: 0 0 22px 0 #ffffff;
+      overflow: hidden;
+      width: 80vw;
+      height: 65vh;
+      background-color: rgba($color: #ffffff, $alpha: 0.9);
+    }
+    .mdlmove {
+      transition: all 0.3s cubic-bezier(0.5, -0.8, 0, 1.5);
     }
   }
 }

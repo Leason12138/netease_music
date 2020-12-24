@@ -115,6 +115,7 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 10;
+  overflow: hidden;
   background-color: #fff;
   margin-bottom: 60px;
   .topbar {

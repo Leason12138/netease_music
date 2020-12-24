@@ -17,7 +17,7 @@
     class="PlayCom" 
     :songlist='songlist'
     :index='index'
-    
+    @changdiurl='changdiurl'
     ></PlayCom>
   </div>
 </template>

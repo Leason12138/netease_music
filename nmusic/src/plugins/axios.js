@@ -9,6 +9,7 @@ import axios from "axios";
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 let config = {
+    // baseURL: ' https://ipv6.music.163.com'
     baseURL: 'http://music.kele8.cn'
         // baseURL: process.env.baseURL || process.env.apiUrl || ""
         // timeout: 60 * 1000, // Timeout
