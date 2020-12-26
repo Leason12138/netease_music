@@ -97,6 +97,7 @@
             leave-active-class="animate__animated animate__fadeOut   "
           >
             <PlayFullView
+            
               :runool="runool"
               :mp3datail="mp3datail"
               class="PlayFullView"
@@ -111,6 +112,8 @@
             leave-active-class="animate__animated animate__fadeOut   "
           >
             <PlayFullLyric
+            
+           @changectimefn='changectimefn'
               :ctime="ctime"
               :mp3datail="mp3datail"
               class="PlayFullLyric"
@@ -120,7 +123,7 @@
           </transition>
         </div>
         <PlayFullBottom
-       @clickfn='clickfn'
+          @clickfn="clickfn"
           class="PlayFullBottom"
           :Songing="Songing"
           :ctime="ctime"
@@ -169,16 +172,20 @@ export default {
       beginMove: "",
       ny: 0,
       cy: 0,
-      listArr:[]
+      listArr: [],
     };
   },
 
   methods: {
+    changectimefn(t){
+      let audio = this.$refs.audio;
+      audio.currentTime=t
+    },
     clickfn(target, index) {
       console.log(111, target, index, this.listArr);
       // console.log(target);
       this.curMusic_id = target.id;
-      this.canClacIndex=index
+      this.canClacIndex = index;
     },
     touchstartFn(e) {
       // console.log(e.touches[0].clientY);
