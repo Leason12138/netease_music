@@ -1,9 +1,8 @@
 <template>
   <div
-    @click.prevent="$emit('ViewOrLyric')"
-    @touchstart.prevent="lrctouchstartFn"
-    @touchmove.prevent="lrctouchmoveFn"
-    @touchend.prevent="lrctouchendFn"
+    @touchstart="lrctouchstartFn"
+    @touchmove.passive="lrctouchmoveFn"
+    @touchend="lrctouchendFn"
   >
     <div
       v-if="lrctext"
@@ -21,7 +20,9 @@
         {{ item }}
       </div>
     </div>
-    <div class="lrc" v-else>cyyatbt</div>
+    <div class="lrc" v-else>
+      <span></span>
+    </div>
   </div>
 </template>
 
@@ -36,6 +37,7 @@ export default {
       begintouch: "",
       istouch: false,
       isgoon: "",
+      justdoit: false,
     };
   },
   methods: {
@@ -45,16 +47,22 @@ export default {
       this.begintouch = e.touches[0].clientY;
       // console.log(this.$refs.lrc.classList);
       this.$refs.lrc.classList.remove("lrctransition");
+      this.justdoit = false;
     },
     lrctouchmoveFn(e) {
+      this.justdoit = true;
       this.isgoon = Math.floor((e.touches[0].clientY - this.begintouch) / 37);
-  
     },
     lrctouchendFn() {
       // console.log();
-      this.$emit("changectimefn", this.lrc[this.i].time);
-      this.istouch = false;
-      this.$refs.lrc.classList.add("lrctransition");
+      if (this.justdoit) {
+        this.$emit("changectimefn", this.lrc[this.i].time);
+        this.istouch = false;
+        this.$refs.lrc.classList.add("lrctransition");
+      } else {
+        this.$emit("ViewOrLyric");
+      }
+      this.justdoit = false;
     },
     getLrc() {
       this.lrctext = [];
@@ -76,10 +84,16 @@ export default {
             });
           return arr;
         }
-        this.lrc = paresLyric(res.data.lrc.lyric);
-        this.lrc.map((item) => {
-          this.lrctext.push(item.text);
-        });
+        // console.log(res.data);
+        //  paresLyric
+        if (res.data.lrc) {
+          this.lrc = paresLyric(res.data.lrc.lyric);
+          this.lrc.map((item) => {
+            this.lrctext.push(item.text);
+          });
+        } else {
+          this.lrctext = ["纯音乐请欣赏"];
+        }
       });
     },
   },
@@ -90,7 +104,7 @@ export default {
     mp3datail: function () {
       this.getLrc();
     },
-   
+
     ctime: function (n) {
       /**
  * if (this.lrc) {
@@ -104,27 +118,25 @@ export default {
           this.i = this.lrc.findIndex((element) => {
             return element.time > n;
           });
-            if(this.i<0){
-              this.i=this.lrc.length
-            }
+          if (this.i < 0) {
+            this.i = this.lrc.length;
+          }
         }
       }
     },
-    isgoon:  function(n, o) {
-      if(n<o){
-        
-         this.i++;
-         
-      }else{
-         this.i--
+    isgoon: function (n, o) {
+      if (n < o) {
+        this.i++;
+      } else {
+        this.i--;
       }
-      if(this.i<0){
+      if (this.i < 0) {
         console.log(1);
-        this.i=0
+        this.i = 0;
       }
-      if(this.i>this.lrctext.length){
+      if (this.i > this.lrctext.length) {
         console.log(this.lrctext.length);
-        this.i=this.lrctext.length-2
+        this.i = this.lrctext.length - 2;
       }
     },
   },

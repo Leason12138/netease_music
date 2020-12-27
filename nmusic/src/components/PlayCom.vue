@@ -14,6 +14,12 @@
       leave-active-class="animate__animated animate__slideOutDown animate__faster "
     >
       <div v-show="isbarshow && mp3datail.al.picUrl" class="palybar">
+        <div class="palybarbackgbox">
+          <div
+            class="palybarbackg"
+            :style="{ backgroundImage: 'url(' + mp3datail.al.picUrl + ') ' }"
+          ></div>
+        </div>
         <div class="musicshow" @click="isbarshow = !isbarshow">
           <div class="pic" ref="pic">
             <div
@@ -22,7 +28,7 @@
             ></div>
           </div>
           <span class="musicname"
-            >{{ mp3datail.al.name }} --
+            >{{ mp3datail.name }} --
             <span class="auther" v-for="it in mp3datail.ar" :key="it.id">
               {{ it.name }}
             </span>
@@ -97,7 +103,6 @@
             leave-active-class="animate__animated animate__fadeOut   "
           >
             <PlayFullView
-            
               :runool="runool"
               :mp3datail="mp3datail"
               class="PlayFullView"
@@ -112,8 +117,7 @@
             leave-active-class="animate__animated animate__fadeOut   "
           >
             <PlayFullLyric
-            
-           @changectimefn='changectimefn'
+              @changectimefn="changectimefn"
               :ctime="ctime"
               :mp3datail="mp3datail"
               class="PlayFullLyric"
@@ -177,9 +181,9 @@ export default {
   },
 
   methods: {
-    changectimefn(t){
+    changectimefn(t) {
       let audio = this.$refs.audio;
-      audio.currentTime=t
+      audio.currentTime = t;
     },
     clickfn(target, index) {
       console.log(111, target, index, this.listArr);
@@ -306,13 +310,35 @@ export default {
   // background-color: #c2c2c2;
   .palybar {
     width: 100vw;
-    background-color: darkgrey;
+    // background-color: #a9a9a9;
     height: 8vh;
     position: absolute;
     bottom: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: #fff;
+    // overflow: hidden;
+    .palybarbackgbox {
+      position: absolute;
+        width: 100vw;
+        height: 8vh;
+        overflow: hidden;
+        background: darkgrey;
+        z-index: -2;
+
+      .palybarbackg {
+        position: absolute;
+        width: 100vw;
+        height: 8vh;
+        z-index: -1;
+        filter: blur(10px) brightness(40%);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    }
+
     .musicshow {
       width: 68vw;
       // background-color: pink;
@@ -437,6 +463,7 @@ export default {
         }
       }
       .songList {
+        color: #333;
         width: 7.5vw;
         height: 7.5vw;
         border-radius: 50%;
@@ -469,7 +496,7 @@ export default {
             overflow: hidden;
             width: 80vw;
             height: 65vh;
-            background-color: rgba($color: #ffffff, $alpha: 0.9);
+            background-color: rgba($color: #eaeaea, $alpha: 0.9);
           }
           .mdlmove {
             transition: all 0.3s cubic-bezier(0.5, -0.8, 0, 1.5);

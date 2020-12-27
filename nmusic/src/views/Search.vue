@@ -96,6 +96,8 @@ export default {
     sugClickFn(str) {
       this.searchSug=[]
       this.getSearchList(str);
+      this.keywords=str
+
     },
     clickfn(target, index) {
       // console.log(target);
