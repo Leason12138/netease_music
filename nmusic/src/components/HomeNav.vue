@@ -5,19 +5,16 @@
       <router-link to="/Hot">热歌榜</router-link>
       <router-link to="/Search">搜索</router-link>
     </div>
-    
 
-<keep-alive>
+    <keep-alive>
+      <router-view class="rouview" @changdiurl="changdiurl" />
+    </keep-alive>
 
-    <router-view class="rouview" @changdiurl="changdiurl" />
-
-</keep-alive>
-
-    <PlayCom 
-    class="PlayCom" 
-    :songlist='songlist'
-    :index='index'
-    @changdiurl='changdiurl'
+    <PlayCom
+      class="PlayCom"
+      :songlist="songlist"
+      :index="index"
+      @changdiurl="changdiurl"
     ></PlayCom>
   </div>
 </template>
@@ -31,7 +28,7 @@ export default {
     return {
       mp3datail: {},
       songlist: [],
-      index: ''
+      index: "",
     };
   },
   methods: {
@@ -55,9 +52,10 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
   color: #2c3e50;
-  .rouview{
- padding-top: 50px;
+  .rouview {
+    padding-top: 50px;
   }
   #nav {
     z-index: 9;
@@ -67,7 +65,7 @@ export default {
     background-color: #fff;
     display: flex;
     justify-content: space-around;
-    border-bottom:1px solid #eee ;
+    border-bottom: 1px solid #eee;
   }
 
   #nav a {
