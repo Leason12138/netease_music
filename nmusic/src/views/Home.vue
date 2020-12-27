@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <p class="sidetext">推荐歌单</p>
-    <div class="TuiJianbox" v-if="tuijianlist[0] ">
+    <div class="TuiJianbox" v-if="tuijianlist[0]">
       <TuiJianItem
         class="tji"
         :item="item"
@@ -68,6 +68,7 @@ import MusicListItem from "@/components/MusicListItem.vue";
 
 export default {
   components: { TuiJianItem, MusicListItem },
+  props: ["cid"],
   data: function () {
     return {
       tuijianlist: [],
@@ -107,6 +108,12 @@ export default {
       });
   },
   mounted() {},
+ watch:{
+   cid:function(n){
+     console.log(111222);
+     this.curMusic_id=n
+   }
+ }
 };
 </script>
 <style lang="scss" scoped>
@@ -211,7 +218,7 @@ export default {
         width: 32vw;
         height: 33vw;
         background-color: #eee;
-        margin-bottom:1vw ;
+        margin-bottom: 1vw;
       }
       .txt {
         width: 32vw;

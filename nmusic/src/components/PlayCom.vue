@@ -181,6 +181,7 @@ export default {
   },
 
   methods: {
+ 
     changectimefn(t) {
       let audio = this.$refs.audio;
       audio.currentTime = t;
@@ -259,6 +260,8 @@ export default {
         this.canClacIndex = 0;
       } else {
         this.canClacIndex++;
+        this.$emit('changecid',this.songlist[this.canClacIndex].id)
+        console.log(1);
       }
     },
     prevSong() {
@@ -291,7 +294,7 @@ export default {
       this.runSong(audio, pic);
       this.runool = false;
       this.curMusic_id = n.id;
-      console.log(this.curMusic_id);
+      // console.log(this.curMusic_id);
     },
   },
 };
@@ -321,11 +324,11 @@ export default {
     // overflow: hidden;
     .palybarbackgbox {
       position: absolute;
-        width: 100vw;
-        height: 8vh;
-        overflow: hidden;
-        background: darkgrey;
-        z-index: -2;
+      width: 100vw;
+      height: 8vh;
+      overflow: hidden;
+      background: darkgrey;
+      z-index: -2;
 
       .palybarbackg {
         position: absolute;

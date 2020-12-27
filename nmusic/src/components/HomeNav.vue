@@ -7,7 +7,7 @@
     </div>
 
     <keep-alive>
-      <router-view class="rouview" @changdiurl="changdiurl" />
+      <router-view :cid='cid' class="rouview" @changdiurl="changdiurl" />
     </keep-alive>
 
     <PlayCom
@@ -15,6 +15,7 @@
       :songlist="songlist"
       :index="index"
       @changdiurl="changdiurl"
+      @changecid="changecid"
     ></PlayCom>
   </div>
 </template>
@@ -29,9 +30,13 @@ export default {
       mp3datail: {},
       songlist: [],
       index: "",
+      cid:''
     };
   },
   methods: {
+    changecid(id){
+      this.cid=id
+    },
     changdiurl(target, index, songlist) {
       this.mp3datail = target;
       this.index = index;
