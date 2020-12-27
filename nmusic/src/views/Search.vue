@@ -77,6 +77,7 @@
 import MusicListItem from "@/components/MusicListItem";
 
 export default {
+  props:['cid'],
   components: { MusicListItem },
 
   data: function () {
@@ -136,6 +137,11 @@ export default {
     });
   },
   watch: {
+
+cid:function(n){
+  this.curMusic_id=n
+}
+    ,
     keywords: function (n) {
       this.listArr = [];
 

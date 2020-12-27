@@ -1,24 +1,23 @@
 <template>
-  <div  class="Hot">
+  <div class="Hot">
     <div class="hottopbarback">
       <div class="hottopbar"></div>
       <span class="updatadays">更新日期 ：{{ updateTime }}日</span>
     </div>
 
-
     <div v-if="listArr[0]">
-    <MusicListItem
-      @clickfn="clickfn"
-      :curMusic_id="curMusic_id"
-      class="newsong"
-      :item="item"
-      v-for="(item, index) in listArr"
-      :idx="index"
-      :key="item.id"
-    >
-    </MusicListItem>
-</div>
- <div v-else class="loading">
+      <MusicListItem
+        @clickfn="clickfn"
+        :curMusic_id="curMusic_id"
+        class="newsong"
+        :item="item"
+        v-for="(item, index) in listArr"
+        :idx="index"
+        :key="item.id"
+      >
+      </MusicListItem>
+    </div>
+    <div v-else class="loading">
       <div class="icon">
         <div></div>
         <div></div>
@@ -34,6 +33,7 @@
 //       @clickfn="clickfn"
 import MusicListItem from "@/components/MusicListItem";
 export default {
+  props: ["cid"],
   components: { MusicListItem },
   data: function () {
     return {
@@ -56,7 +56,7 @@ export default {
       this.updateTime = new Date(res.data.playlist.updateTime)
         .toISOString()
         .slice(5, 10)
-      .replace("-", "月");
+        .replace("-", "月");
       this.beforeListStr = res.data.playlist.trackIds
         .map((item) => {
           return item.id;
@@ -78,12 +78,18 @@ export default {
       //
     });
   },
+  watch: {
+    cid: function (n) {
+      console.log(111222);
+      this.curMusic_id = n;
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .Hot {
-    .loading {
+  .loading {
     margin-top: -100px;
     width: 100vw;
     height: 80vh;

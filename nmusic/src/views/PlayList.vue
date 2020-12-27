@@ -54,6 +54,7 @@
 import MusicListItem from "../components/MusicListItem";
 
 export default {
+  props: ["cid"],
   components: { MusicListItem },
   data: function () {
     return {
@@ -97,6 +98,11 @@ export default {
         });
       });
   },
+    watch:{
+    cid:function(n){
+     this.curMusic_id=n;
+    }
+  }
   // updated(){
   //   console.log(1);
   //  this.q_id= this.$route.query.id
@@ -207,17 +213,17 @@ export default {
       height: 0;
       width: 16%;
       background-color: #d32929;
-      animation: loadingmove 1s linear infinite ;
-      &:nth-child(1){
+      animation: loadingmove 1s linear infinite;
+      &:nth-child(1) {
         animation-delay: 0.7s;
       }
-      &:nth-child(2){
+      &:nth-child(2) {
         animation-delay: 0.1s;
       }
-      &:nth-child(3){
+      &:nth-child(3) {
         animation-delay: 0.5s;
       }
-      &:nth-child(4){
+      &:nth-child(4) {
         animation-delay: 0.3s;
       }
     }
@@ -225,14 +231,13 @@ export default {
 }
 @keyframes loadingmove {
   0% {
-      height: 0;
+    height: 0;
   }
   50% {
-      height: 100%;
+    height: 100%;
   }
   100% {
-      height: 0;
-
+    height: 0;
   }
 }
 .PlayCom {

@@ -7,6 +7,7 @@
         :item="item"
         v-for="item in tuijianlist.slice(0, 6)"
         :key="item.id"
+
       >
       </TuiJianItem>
     </div>
