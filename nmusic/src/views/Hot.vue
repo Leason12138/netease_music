@@ -52,7 +52,7 @@ export default {
   },
   created() {
     this.axios.get("/top/list?idx=1").then((res) => {
-      console.log(res);
+      // console.log(res);
       this.updateTime = new Date(res.data.playlist.updateTime)
         .toISOString()
         .slice(5, 10)

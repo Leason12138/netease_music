@@ -78,7 +78,7 @@ export default {
   },
   mounted() {},
   activated() {
-    console.log(this.$route.query.id);
+    // console.log(this.$route.query.id);
     this.isShow = false;
     this.$axios
       .get(`/playlist/detail?id=${this.$route.query.id}`)

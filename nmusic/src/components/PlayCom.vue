@@ -187,7 +187,7 @@ export default {
       audio.currentTime = t;
     },
     clickfn(target, index) {
-      console.log(111, target, index, this.listArr);
+      // console.log(111, target, index, this.listArr);
       // console.log(target);
       this.curMusic_id = target.id;
       this.canClacIndex = index;
@@ -261,7 +261,6 @@ export default {
       } else {
         this.canClacIndex++;
         this.$emit('changecid',this.songlist[this.canClacIndex].id)
-        console.log(1);
       }
     },
     prevSong() {

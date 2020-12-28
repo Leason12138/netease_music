@@ -110,7 +110,7 @@ export default {
         .get(`/search?keywords=${str}`)
         .then((res) => {
           // res
-          console.log(res.data.result);
+          // console.log(res.data.result);
 
           this.returnSongids = res.data.result.songs
             .map((item) => {
@@ -126,7 +126,7 @@ export default {
             .then((res) => {
               //
               this.listArr = res.data.songs;
-              console.log(this.listArr);
+              // console.log(this.listArr);
             });
         });
     },
@@ -144,7 +144,6 @@ cid:function(n){
     ,
     keywords: function (n) {
       this.listArr = [];
-
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.axios

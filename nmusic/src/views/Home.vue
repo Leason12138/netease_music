@@ -111,7 +111,7 @@ export default {
   mounted() {},
  watch:{
    cid:function(n){
-     console.log(111222);
+    //  console.log(111222);
      this.curMusic_id=n
    }
  }

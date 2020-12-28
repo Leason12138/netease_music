@@ -135,7 +135,7 @@ export default {
         this.i = 0;
       }
       if (this.i > this.lrctext.length) {
-        console.log(this.lrctext.length);
+        // console.log(this.lrctext.length);
         this.i = this.lrctext.length - 2;
       }
     },
