@@ -234,7 +234,7 @@ export default {
           left: 50%;
           transform: translateY(-50%) translateX(-50%);
           display: block;
-          background: url("../assets/radom.png");
+          background: url("../assets/goon.png");
           background-size: cover;
           width: 6vw;
           height: 6vw;
@@ -278,7 +278,7 @@ export default {
         background-color: transparent;
         border-radius: 50%;
         line-height: 13.5vw;
-        border: 1px solid #fff;
+        border: 2px solid #aaa;
         position: relative;
         //  ctrl">
         // runing"

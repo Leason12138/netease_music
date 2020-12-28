@@ -13,7 +13,7 @@
       enter-active-class="animate__animated animate__slideInUp animate__slow	"
       leave-active-class="animate__animated animate__slideOutDown animate__faster "
     >
-      <div v-show="isbarshow && mp3datail.al.picUrl" class="palybar">
+      <div  v-show="isbarshow && mp3datail.al.picUrl" class="palybar">
         <div class="palybarbackgbox">
           <div
             class="palybarbackg"
@@ -177,11 +177,11 @@ export default {
       ny: 0,
       cy: 0,
       listArr: [],
+      timer: "",
     };
   },
 
   methods: {
- 
     changectimefn(t) {
       let audio = this.$refs.audio;
       audio.currentTime = t;
@@ -246,12 +246,15 @@ export default {
       }
     },
     stopSong(audio, pic) {
-      audio.pause();
-      pic.classList.add("picstop");
-      this.runool = audio.paused;
+    
+        audio.pause();
+        pic.classList.add("picstop");
+        this.runool = audio.paused;
+    
     },
     runSong(audio, pic) {
-      audio.play();
+      
+        audio.play();
       this.runool = audio.paused;
       pic.classList.remove("picstop");
     },
@@ -260,7 +263,7 @@ export default {
         this.canClacIndex = 0;
       } else {
         this.canClacIndex++;
-        this.$emit('changecid',this.songlist[this.canClacIndex].id)
+        this.$emit("changecid", this.songlist[this.canClacIndex].id);
       }
     },
     prevSong() {
