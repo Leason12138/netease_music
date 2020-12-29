@@ -2,7 +2,7 @@
   <div class="Hot">
     <div class="hottopbarback">
       <div class="hottopbar"></div>
-      <span class="updatadays">更新日期 ：{{ updateTime }}日</span>
+      <span v-show="updateTime" class="updatadays">更新日期 ：{{ updateTime }}日</span>
     </div>
 
     <div v-if="listArr[0]">

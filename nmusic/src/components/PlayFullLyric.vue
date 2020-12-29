@@ -113,7 +113,8 @@ export default {
         });
       }
  */
-      if (!this.istouch) {
+if( this.lrctext[5]){
+  if (!this.istouch) {
         if (this.lrc) {
           this.i = this.lrc.findIndex((element) => {
             return element.time > n;
@@ -122,6 +123,15 @@ export default {
             this.i = this.lrc.length;
           }
         }
+}else{
+  this.i=2
+}
+
+    
+
+
+
+
       }
     },
     isgoon: function (n, o) {
