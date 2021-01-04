@@ -314,17 +314,16 @@ export default {
     position: absolute;
     top: -90.6vh;
     left: -85vw;
-    background-color: rgba($color: #000000, $alpha: 0.6);
+    // background-color: rgba($color: #000000, $alpha: 0.6);
     .modalbox {
       position: absolute;
-      top: 20%;
+      top: 18%;
       left: 15%;
       border-radius: 10px;
-      box-shadow: 0 0 22px 0 #ffffff;
       overflow: hidden;
       width: 80vw;
       height: 65vh;
-      background-color: rgba($color: #ffffff, $alpha: 0.9);
+      background-color: rgba($color: #ffffff, $alpha: 1);
     }
     .mdlmove {
       transition: all 0.3s cubic-bezier(0.5, -0.8, 0, 1.5);

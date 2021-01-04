@@ -8,7 +8,7 @@
         type="text"
         placeholder="搜索歌曲、歌手、专辑"
       />
-      <span class="searchdel" @click="keywords = ''">✖</span>
+      <span class="searchdel" @click="xclickfn">✖</span>
     </div>
     <div>
       <div class="hotsearch" v-show="!keywords && !listArr[0]">
@@ -16,6 +16,7 @@
         <ul>
           <li
             @click="
+              showsugseach = false;
               keywords = item.searchWord;
               getSearchList(item.searchWord);
             "
@@ -31,7 +32,7 @@
         </div>
         <!-- hotsearch -->
       </div>
-      <div v-show="keywords && !listArr[0]">
+      <div v-show="keywords && !listArr[0] && showsugseach">
         <span class="atsearch" @click="getSearchList(keywords)"
           >搜索“{{ keywords }}”</span
         >
@@ -59,14 +60,14 @@
         >
         </MusicListItem>
       </div>
-      <div v-if='!listArr[0]&&keywords&&!searchSug[0]' class="loading">
-      <div class="icon">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+      <div v-if="!listArr[0] && keywords && !searchSug[0]" class="loading">
+        <div class="icon">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
-    </div>
       <!-- main -->
     </div>
     <!-- search -->
@@ -77,7 +78,7 @@
 import MusicListItem from "@/components/MusicListItem";
 
 export default {
-  props:['cid'],
+  props: ["cid"],
   components: { MusicListItem },
 
   data: function () {
@@ -91,14 +92,19 @@ export default {
       searchSug: [],
       searchkeywords: "",
       listArr: [],
+      showsugseach: true,
     };
   },
   methods: {
+    xclickfn() {
+      this.keywords = "";
+      this.listArr = [];
+      this.returnSongList = [];
+    },
     sugClickFn(str) {
-      this.searchSug=[]
+      this.searchSug = [];
       this.getSearchList(str);
-      this.keywords=str
-
+      this.keywords = str;
     },
     clickfn(target, index) {
       // console.log(target);
@@ -106,12 +112,12 @@ export default {
       this.$emit("changdiurl", target, index, this.listArr);
     },
     getSearchList(str) {
+      this.listArr = [];
+      this.searchSug = [];
+      // this.cancel()
       this.axios
         .get(`/search?keywords=${str}`)
         .then((res) => {
-          // res
-          // console.log(res.data.result);
-
           this.returnSongids = res.data.result.songs
             .map((item) => {
               return item.id;
@@ -137,23 +143,21 @@ export default {
     });
   },
   watch: {
-
-cid:function(n){
-  this.curMusic_id=n
-}
-    ,
+    cid: function (n) {
+      this.curMusic_id = n;
+    },
     keywords: function (n) {
-      this.listArr = [];
-      clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
+      if (n == "") {
+        this.showsugseach = true;
+      }
+      if (n != "" && this.showsugseach) {
+        this.listArr = [];
         this.axios
           .get(`/search/suggest?keywords=${n}&type=mobile`)
           .then((res) => {
-            // console.log(res.data.result.allMatch);
-
             this.searchSug = res.data.result.allMatch;
           });
-      }, 100);
+      }
     },
   },
 };
@@ -162,7 +166,7 @@ cid:function(n){
 <style lang="scss" scoped>
 .search {
   margin-bottom: 60px;
-    .loading {
+  .loading {
     margin-top: -100px;
     width: 100vw;
     height: 80vh;

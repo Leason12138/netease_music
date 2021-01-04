@@ -1,7 +1,7 @@
 <template>
   <div
     @touchstart="lrctouchstartFn"
-    @touchmove.prevent ="lrctouchmoveFn"
+    @touchmove.prevent="lrctouchmoveFn"
     @touchend="lrctouchendFn"
   >
     <div
@@ -10,14 +10,19 @@
       ref="lrc"
       :style="{ marginTop: `${-i * 37}px` }"
     >
-      <div
-        class="lrctext"
-        v-for="(item, index) in lrctext"
-        :idx="index"
-        :key="index"
-        :class="{ light: i - 1 == index }"
-      >
-        {{ item }}
+      <div v-if="lrctext[0]">
+        <div
+          class="lrctext"
+          v-for="(item, index) in lrctext"
+          :idx="index"
+          :key="index"
+          :class="{ light: i - 1 == index }"
+        >
+          {{ item }}
+        </div>
+      </div>
+      <div v-else>
+        <span>加载中，请稍后……</span>
       </div>
     </div>
     <div class="lrc" v-else>
@@ -69,7 +74,7 @@ export default {
     },
     getLrc() {
       this.lrctext = [];
-    this.mp3datail.id
+      this.mp3datail.id;
       this.axios.get(`/lyric?id=${this.mp3datail.id}`).then((res) => {
         function paresLyric(lyric) {
           var patt = /\[\d{2}:\d{2}\.\d{2,3}\]/gi;
@@ -91,7 +96,9 @@ export default {
         // console.log(res.data);
         //  paresLyric
         if (res.data.lrc) {
-          this.lrc = paresLyric(res.data.lrc.lyric);
+          // if (res.data.lrc.lyric[0]) {
+            this.lrc = paresLyric(res.data.lrc.lyric);
+          // }
           this.lrc.map((item) => {
             this.lrctext.push(item.text);
           });
@@ -124,23 +131,6 @@ export default {
         // this.i = this.lrc.length;
       }
 
-      // if (this.lrctext[5]) {
-      // console.log(111);
-      //   if (!this.istouch) {
-      //     console.log(222);
-      //     if (this.lrc) {
-      //       console.log(333);
-      //       this.i = this.lrc.findIndex((element) => {
-      //         return element.time > n;
-      //       });
-      //       if (this.i < 0) {
-      //         this.i = this.lrc.length;
-      //       }
-      //     }
-      //   } else {
-      //     // this.i = 2;
-      //   }
-      // }
     },
     isgoon: function (n, o) {
       if (n < o) {
