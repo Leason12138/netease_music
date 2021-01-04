@@ -50,8 +50,11 @@ export default {
       this.justdoit = false;
     },
     lrctouchmoveFn(e) {
-      this.justdoit = true;
+      if (this.lrctext[5]) {
+        this.justdoit = true;
+      }
       this.isgoon = Math.floor((e.touches[0].clientY - this.begintouch) / 37);
+      // console.log(this.i);
     },
     lrctouchendFn() {
       // console.log();
@@ -66,6 +69,7 @@ export default {
     },
     getLrc() {
       this.lrctext = [];
+    this.mp3datail.id
       this.axios.get(`/lyric?id=${this.mp3datail.id}`).then((res) => {
         function paresLyric(lyric) {
           var patt = /\[\d{2}:\d{2}\.\d{2,3}\]/gi;
@@ -106,33 +110,37 @@ export default {
     },
 
     ctime: function (n) {
-      /**
- * if (this.lrc) {
-        this.i = this.lrc.findIndex((element) => {
-          return element.time > n;
-        });
-      }
- */
-if( this.lrctext[5]){
-  if (!this.istouch) {
-        if (this.lrc) {
-          this.i = this.lrc.findIndex((element) => {
-            return element.time > n;
-          });
-          if (this.i < 0) {
-            this.i = this.lrc.length;
+      if (!this.istouch) {
+        if (this.lrctext[5]) {
+          if (this.lrc) {
+            this.i = this.lrc.findIndex((element) => {
+              return element.time > n;
+            });
           }
+        } else {
+          //
         }
-}else{
-  this.i=2
-}
-
-    
-
-
-
-
+      } else {
+        // this.i = this.lrc.length;
       }
+
+      // if (this.lrctext[5]) {
+      // console.log(111);
+      //   if (!this.istouch) {
+      //     console.log(222);
+      //     if (this.lrc) {
+      //       console.log(333);
+      //       this.i = this.lrc.findIndex((element) => {
+      //         return element.time > n;
+      //       });
+      //       if (this.i < 0) {
+      //         this.i = this.lrc.length;
+      //       }
+      //     }
+      //   } else {
+      //     // this.i = 2;
+      //   }
+      // }
     },
     isgoon: function (n, o) {
       if (n < o) {
@@ -180,4 +188,4 @@ if( this.lrctext[5]){
     }
   }
 }
-</style>
+</style> 
