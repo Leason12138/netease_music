@@ -1,7 +1,7 @@
 <template>
   <div
     @touchstart="lrctouchstartFn"
-    @touchmove.passive="lrctouchmoveFn"
+    @touchmove.prevent ="lrctouchmoveFn"
     @touchend="lrctouchendFn"
   >
     <div
