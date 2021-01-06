@@ -487,7 +487,7 @@ export default {
           }
           .list {
             width: 100vw;
-            height: 100vh;
+            height: 100vh; 
             position: absolute;
             top: -94vh;
             left: -90.5vw;
