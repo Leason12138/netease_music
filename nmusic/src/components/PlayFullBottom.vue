@@ -324,7 +324,8 @@ export default {
       width: 80vw;
       height: 65vh;
       background-color: rgba($color: #ffffff, $alpha: 1);
-    }
+      box-shadow:3px 3px 5px 0px  #4d4d4dbb;
+    } 
     .mdlmove {
       transition: all 0.3s cubic-bezier(0.5, -0.8, 0, 1.5);
     }

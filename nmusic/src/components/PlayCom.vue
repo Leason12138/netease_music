@@ -499,6 +499,7 @@ export default {
               border-radius: 10px;
               overflow: hidden;
               width: 80vw;
+      box-shadow:3px 3px 5px 0px  #b6b6b6;
               height: 65vh;
               background-color: rgba($color: #eaeaea, $alpha: 1);
             }
